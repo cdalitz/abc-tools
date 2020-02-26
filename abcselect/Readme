@@ -1,0 +1,79 @@
+abcselect
+---------
+
+abcselect is a small tool for extracting parts, movements 
+etc. from files in the abc format of music notation.
+
+It was first named "abc2abc" but that was the name of
+a tool by James Allwrigth as well; thus it is now
+named "abcselect" in analogy to "psselect".
+
+abcselect is copyrighted by Christoph Dalitz and can be 
+distributed freely under the GNU GPL.
+
+
+Requirements
+------------
+
+abcselect is a Perl script and requires a Perl version >= 5.0.
+If you are not sure about the version installed on your
+system, check it out with "perl -v".
+
+On MacOS X, Linux and other Unix systems, Perl is usually shipped 
+with the operating system. On Win32 systems you need to install 
+the Perl interpreter first, e.g. from Active State:
+
+    http://www.activestate.com/ActivePerl/
+
+If you do not know what Perl is and what it is good for, you should
+rather use the precompiled binary abcselect.exe that has been created
+using the PAR module with "pp -o abcselect.exe abcselect".
+
+
+Installation
+------------
+
+MacOS X, Linux, Unix:
+
+1. Adjust the first line in abcselect to the full path
+   of your perl executable.
+   (If you get an error "abcselect: file or directory not found"
+   on the invocation of abcselect, this line is probably not
+   correct.)
+
+2. Copy abcselect into a directory in your path (eg. /usr/local/bin)
+   and make it executable (chmod a+x abcselect).
+
+3. Copy the man page abcselect.1 into a man page directory
+   (eg. /usr/local/man/man1).
+
+Win32:
+
+Put the binary abcselect.exe somewhere in your program search path.
+The program search path is printed with the command "path" and can
+be changed in the system setting "Environment Variables" (variable
+PATH).
+
+
+Usage:
+------
+
+abcselect is a command line program that can only be run from
+the command line (*not* by double clicking on the program).
+"abcselect -?" gives a usage message. If invoked without any
+parameter, abcselect reads from stdin and writes to stdout.
+
+Example: The following command selects the first, second and 
+third voice from the second tune of sample.abc and writes them
+to selection.abc:
+
+     abcselect -V 1-3 -X 2 sample.abc > selection.abc
+
+Please consult the man page for details. On Unix, simply type
+"man abcselect", on Windows open the html version of the man
+page, "abcselect.html".
+
+May 2006
+
+Christoph Dalitz
+<christoph dot dalitz at hs-niederrhein dot de>

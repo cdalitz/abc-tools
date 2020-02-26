@@ -1,0 +1,93 @@
+tab2abc
+-------
+
+tab2abc is a small tool for converting a file in Wayne
+Cripps' tab format to abc format.
+
+tab2abc is copyrighted by Christoph Dalitz and can be 
+distributed freely under the GNU GPL.
+
+
+Requirements
+------------
+
+tab2abc is a Perl script and requires a Perl version >= 5.0.
+If you are not sure about the version installed on your
+system, check it out with "perl -v".
+
+On Unix/Linux/MacOS X systems, Perl is shipped with the operating
+system.
+
+On Win32 systems you need to install the Perl interpreter
+first. Depending on your preferences, you can obtain Perl 
+for Win32 from two different places:
+
+a) As part of Cygwin (http://sourceware.cygnus.com/cygwin/).
+   Start the installer from the Cygwin website and choose
+   at least "bash" and "perl" in the software selection.
+   Then you can start perl scripts directly from the "bash" 
+   shell, which is a much more comfortable command interface 
+   than the "DOS shell" that is shipped as "cmd.exe" (with 
+   Windows NT/2000/XP) or "command.com" (with Windows 95/98/ME).
+
+b) From Active State (http://www.activestate.com/ActivePerl/).
+   In this case you must invoke perl scripts from the "DOS shell".
+   In order to faciliate this, the Active State Perl distribution
+   contains a program "pl2bat" which puts a DOS-script ("BAT file")
+   wrapper around a Perl script.
+
+Version a) is easier to install and use, but version b) is more
+interesting if you plan to do more with Perl yourself, because
+Active State offers some interesting commercial addons for Perl 
+on Win32 and some Perl addons (eg. for manipulating Windows
+Registry entries) might be available only for the Active State 
+distribution.
+
+
+Installation
+------------
+
+Unix/Linux/MacOS X:
+
+1. Adjust the first line in tab2abc to the full path
+   of your perl executable.
+   (If you get an error "tab2abc: file or directory not found"
+   on the invocation of tab2abc, this line is probably not
+   correct.)
+
+2. Copy tab2abc into a directory in your path (eg. /usr/local/bin)
+   and make it executable (chmod a+x tab2abc).
+
+3. Copy the man page tab2abc.1 into a man page directory
+   (eg. /usr/local/man/man1).
+
+Win32:
+
+If you plan to call tab2abc from the bash shell (part of Cygwin),
+you can follow steps 1. and 2. of the Unix installation.
+
+If you are a masochist and insist on using the crappy DOS shell,
+do the following:
+
+1. Create a DOS-script "tab2abc.bat" with the command 
+   "pl2bat tab2abc". Note that this only works when you are using
+   the Active State Perl distribution.
+
+2. Put that DOS script somewhere in your path 
+   (eg. C:\Windows or C:\Winnt)
+
+
+Usage:
+------
+
+"tab2abc -?" gives a usage message. If invoked without any
+parameter, tab2abc reads from stdin and writes to stdout.
+
+Please consult the man page for details on options and limitations.
+On Unix/Linux/MacOS X, simply type "man tab2abc", on Windows you can
+consult the html version of the man page, "tab2abc.html".
+
+February 2004
+
+Christoph Dalitz
+<christoph dot dalitz at hs-niederrhein dot de>

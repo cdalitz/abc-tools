@@ -1,0 +1,58 @@
+Readme for abc Extensions for nedit
+===================================
+
+Overview
+--------
+
+Nedit is a highly customizable editor. As it is based on
+Motif, it requires an X-Windows environment. Precompiled
+binaries or the source code of Nedit are available from
+
+    http://www.nedit.org
+
+The language mode for abctab2ps switches Nedit into a 
+comfortable abc editor with the following features:
+
+ - abc syntax highlighting
+ - new entries in the Macro main menu, eg.
+    o abc - Preview (Alt-c p)
+      automatically launches abctab2ps and ghostview/gv;
+      if abctab2ps detects erorrs, you can optionally
+      jump to the error in the input file!
+    o abc - Goto Voice/Bar (Alt-c g)
+    o interactive option setting
+
+Installation
+------------
+
+Just type
+    nedit -import abc.neditmacro
+
+Customization
+-------------
+
+If you want to use abcm2ps instead of abctab2ps or if
+you want a different postscript viewer than gv, do
+the following:
+
+ - Open the Menu
+    Preferences->Default Settings->Customize Menus->Macro Menu...
+
+ - In the list box mark "abc - Preview@abc"
+
+ - adjust the variables $psviewer and $abctab2ps
+   to your needs
+
+If you want to change the highlighting patterns or colors:
+
+ - Open the Menu
+    Preferences->Default Settings->Syntax Highlighting->Recognition Patterns...
+
+ - Choose "abc" in the language mode combo box
+
+ - Fell free to change everything...
+
+
+Have fun.
+
+Christoph Dalitz

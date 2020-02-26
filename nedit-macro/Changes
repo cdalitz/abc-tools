@@ -1,0 +1,41 @@
+Change history of abc nedit macro
+=================================
+
+Version 1.4
+-----------
+
+ - new menu entry "preview current tune"
+   even in this case "goto error" works!
+
+Version 1.3
+-----------
+
+ - new menu entries for interactive option setting
+ - new menu entry "insert Header"
+ - "Goto Error" only selects error instead of entire line
+ - [1 [2 :: added to syntax highlighting
+
+Version 1.2
+-----------
+
+ - new menu entries:
+    o comment out region
+    o uncomment region
+
+Version 1.1
+-----------
+
+ - syntax highlighting
+    o correction Info line 
+ - macros
+    o "...^" removed in message box
+      (was confusing with proportional font)
+
+Version 1.0
+-----------
+
+ - first creation with features:
+    o abc syntax highlighting
+    o two menu entries in the "Macro" menu
+       + abc - Preview
+       + abc - Goto Voice/Bar

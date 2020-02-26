@@ -1,0 +1,53 @@
+Esperanto Support for abctab2ps
+===============================
+
+The python script psesperanto.py adds support for Esperanto characters
+in abctab2ps.
+
+Usage
+-----
+
+ 1) Write the abc file with the "x convention" for the Esperanto special
+    chars, i.e. cx, gx, hx, jx, sx, ux.
+
+ 2) Process the abc file with abctab2ps, e.g. ("$" is the shell prompt)
+    $ abctab2ps -O la-espero.ps la-espero.abc
+
+ 3) Process the PS output file with psesperanto.py, e.g.
+    $ python psesperanto.py la-espero.ps > la-espero-latin3.ps
+
+Caveat
+-------
+
+The script works as follows:
+
+ - the font encoding is changed to ISO 8859-3 (latin 3)
+ - all special characters in string literals are translated
+   to the corresponding latin3 code
+
+Beware that this has the side effect, that charactes specific to latin1
+encoding, like German umlauts, no longer print correctly. This means that,
+at present, Esperanto text can not be mixed with text in other languages
+that uses 8bit characters.
+
+Installation
+------------
+
+The script can be used without installation just by passign its filename
+to the python interpreter. The script has been tested with python 2.7.
+
+It can be installed by making teh script file executable and copying
+it to a diretcor in your $PATH variable, e.g.
+
+   $ chmod 755 psesperanto.py
+   $ sudo cp psepseranto.py /usr/local/bin
+
+Author & License
+----------------
+
+psesperanto.py is copyrighted by Christoph Dalitz, October 2017.
+The program cn be freely copied, distributed, used, and modified
+under the terms of the GNU General Public License, version 2.
+
+
+

@@ -1,0 +1,356 @@
+<!-- Creator     : groff version 1.19.1 -->
+<!-- CreationDate: Fri Apr  8 15:39:34 2011 -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta name="generator" content="groff -Thtml, see www.gnu.org">
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta name="Content-Style" content="text/css">
+<title>TAB2ABC</title>
+</head>
+<body>
+
+<h1 align=center>TAB2ABC</h1>
+<a href="#NAME">NAME</a><br>
+<a href="#SYNOPSIS">SYNOPSIS</a><br>
+<a href="#DESCRIPTION">DESCRIPTION</a><br>
+<a href="#OPTIONS">OPTIONS</a><br>
+<a href="#EXAMPLES">EXAMPLES</a><br>
+<a href="#BUGS">BUGS</a><br>
+<a href="#AUTHOR">AUTHOR</a><br>
+<a href="#VERSION">VERSION</a><br>
+<a href="#COPYRIGHT">COPYRIGHT</a><br>
+<a href="#SEE ALSO">SEE ALSO</a><br>
+
+<hr>
+<a name="NAME"></a>
+<h2>NAME</h2>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="89%">
+<p><b>tab2abc</b> &minus; converts tablature from TAB to ABC
+format</p>
+</td>
+</table>
+<a name="SYNOPSIS"></a>
+<h2>SYNOPSIS</h2>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="89%">
+<p>tab2abc [-?] [-tab <i>type</i>] [-len <i>length</i>]
+[-beam] [-layout] [-notext] [<i>infile</i>]</p>
+</td>
+</table>
+<a name="DESCRIPTION"></a>
+<h2>DESCRIPTION</h2>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="89%">
+<p><b>tab2abc</b> reads an input file containing tablature
+in Wayne Cripps&rsquo; tab format and outputs it in abc
+format.</p>
+<!-- INDENTATION -->
+<p>The output is written to stdout and can be piped directly
+into <i>abctab2ps</i>. If no input file is given, the input
+is read from stdin.</p>
+</td>
+</table>
+<a name="OPTIONS"></a>
+<h2>OPTIONS</h2>
+<!-- TABS -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="5" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="3%">
+
+<p><b>-?</b></p>
+</td>
+<td width="8%"></td>
+<td width="29%">
+
+<p>print usage message</p>
+</td>
+<td width="49%">
+</td>
+</table>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="89%">
+<p><b>-tab</b> <i>type</i></p></td>
+</table>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="22%"></td>
+<td width="78%">
+<p>tablature type. This option is necessary for italian
+tablature because the tab format does not provide any
+information whether a tablature is spanish or italian.
+Possible values for <i>type</i> are: &quot;fr&quot; (french
+tab), &quot;sp&quot; (spanish/guitar tab),
+&quot;it&quot;&rsquo; (italian tab) or &quot;it7&quot; (7
+course italian tab). Default value is &quot;fr&quot;.</p>
+</td>
+</table>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="89%">
+<p><b>-len</b> <i>length</i></p></td>
+</table>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="22%"></td>
+<td width="78%">
+<p>default length (L: field) for the abc output.
+<i>length</i> must be a valid abc length specifier. Default
+value is &quot;1/8&quot;.</p>
+</td>
+</table>
+<!-- TABS -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="4" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="7%">
+
+<p><b>-beam</b></p>
+</td>
+<td width="4%"></td>
+<td width="78%">
+
+<p>do not seperate chords in abc with spaces. This is
+useful if you want to use the %%tabrhstyle grid in the abc
+output. Otherwise it is not recommended as it reduces the
+legibility of the abc code. Please note that this option
+beams <i>all</i> notes in a bar.</p>
+</td>
+</table>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="89%">
+<p><b>-layout</b></p></td>
+</table>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="22%"></td>
+<td width="78%">
+<p>try to emulate tab&rsquo;s layout settings. These are
+guessed from command line options found win the tab
+file.</p>
+</td>
+</table>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="89%">
+<p><b>-nolinebreak</b></p></td>
+</table>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="22%"></td>
+<td width="78%">
+<p>do not beautify abc code to bar per line.</p>
+</td>
+</table>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="89%">
+<p><b>-notext</b></p></td>
+</table>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="22%"></td>
+<td width="78%">
+<p>do not convert text under chords.</p>
+</td>
+</table>
+<a name="EXAMPLES"></a>
+<h2>EXAMPLES</h2>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="89%">
+<p>Convert tab file in.tab in italian tablature and write
+abc output wiht default length 1/4 to out.abc:</p>
+</td>
+</table>
+<!-- TABS -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="3" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="18%"></td>
+<td width="8%">
+
+<p><tt>tab2abc -len 1/4 -tab it in.tab &gt;
+out.abc</tt></p>
+</td>
+<td width="74%">
+</td>
+</table>
+<a name="BUGS"></a>
+<h2>BUGS</h2>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="89%">
+<p>tab2abc currently has the following limitations:</p></td>
+</table>
+<!-- TABS -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="4" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="12%"></td>
+<td width="2%">
+
+<p>-</p>
+</td>
+<td width="1%"></td>
+<td width="85%">
+
+<p>Only single voice tablature is supported. An additional
+music line is ignored.</p>
+</td>
+<tr valign="top" align="left">
+<td width="12%"></td>
+<td width="2%">
+
+<p>-</p>
+</td>
+<td width="1%"></td>
+<td width="85%">
+
+<p>There are no tags for title, composer etc. in tab. Thus
+the first encountered texts are interpreted as title and
+composer. This may or may not be what you want.</p>
+</td>
+<tr valign="top" align="left">
+<td width="12%"></td>
+<td width="2%">
+
+<p>-</p>
+</td>
+<td width="1%"></td>
+<td width="85%">
+
+<p>Grace symbols are applied to the entire chord rather
+than individual notes. This is ok for almost all cases, but
+might require manual correction occasionally.</p>
+</td>
+<tr valign="top" align="left">
+<td width="12%"></td>
+<td width="2%">
+
+<p>-</p>
+</td>
+<td width="1%"></td>
+<td width="85%">
+
+<p>Slurs and other special decorations are ignored.</p>
+</td>
+<tr valign="top" align="left">
+<td width="12%"></td>
+<td width="2%">
+
+<p>-</p>
+</td>
+<td width="1%"></td>
+<td width="85%">
+
+<p>tab&rsquo;s file format has many dusty corners. If you
+encounter one that is not supported by tab2abc, please send
+an error report including the problematic tab file to the
+author.</p>
+</td>
+</table>
+<a name="AUTHOR"></a>
+<h2>AUTHOR</h2>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="89%">
+<p>Christoph Dalitz
+&lt;christoph(dot)dalitz[at]hsnr(dot)de&gt;</p>
+</td>
+</table>
+<a name="VERSION"></a>
+<h2>VERSION</h2>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="89%">
+<p>This man page describes tab2abc version 1.6 from July
+2004.</p>
+</td>
+</table>
+<a name="COPYRIGHT"></a>
+<h2>COPYRIGHT</h2>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="89%">
+<p>Copyright 2002-2004 by Christoph Dalitz</p>
+<!-- INDENTATION -->
+<p>tab2abc is supplied &quot;as is&quot; without any
+warranty. It is free software and can be used, copied,
+modified and distributed without fee under the terms of the
+GNU General Public License.</p>
+</td>
+</table>
+<a name="SEE ALSO"></a>
+<h2>SEE ALSO</h2>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="89%">
+<p>abctab2ps(1)</p>
+</td>
+</table>
+<hr>
+</body>
+</html>

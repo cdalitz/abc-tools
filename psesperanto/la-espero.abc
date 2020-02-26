@@ -1,0 +1,33 @@
+%!abctab2ps -notab
+%
+X:1
+%
+%%scale 0.85
+%
+T:La Espero
+T:Himno de Esperanto
+C:Teksto: L.L. Zamenhof (1859-1917)
+C:Melodio: F.M. de Menil (1860-1930)
+L:1/4
+M:C
+K:G
+%
+D/>D/ | DB, G/>D/ B/>G/ | d2BD/>G/ | BG d/>B/ B/>A/ | A2G
+w:En la mon-don ve-nis no-va sen-to, tra la mon-do i-ras for-ta vo-ko
+D/>D/ | DB, G/>D/ B/>G/ | d2BF/>B/ | dB d/>^c/ B/>^A/ | ^c2B
+w:Per flu-gi-loj de fa-ci-la ven-to nun de lo-ko flu-gu gxi al lo-ko.
+B/>B/ | cE F/F/ G/A/ | D2EE/>E/ | FGA/>A/ ^A/>A/ | B2c
+w:Ne al gla-vo san-gon so-i-fan-ta gxi la ho-man ti-ras fam-i-li-on;
+D/>D/ | DB, G/>D/ B/>G/ | d2cc/>c/ | BD B/>A/ c/>F/ | A2G |]
+w:Al la mond' e-ter-ne mi-li-tan-ta gxi pro-me-sas san-ktan har-mon-i-on.
+%
+W:
+W:Sub la sankta signo de l' espero / kolektigxas pacaj batalantoj,
+W:Kaj rapide kreskas la afero / per laboro de la esperantoj.
+W:Forte staras muroj de miljaroj / inter la popoloj dividitaj;
+W:Sed dissaltos la obstinaj baroj, / per la sankta amo disbatitaj.
+W:
+W:Sur neuxtrala lingva fundamento, / komprenante unu la alian,
+W:La popoloj faros en konsento / unu grandan rondon familian.
+W:Nia diligenta kolegaro / en laboro paca ne lacigxos,
+W:GXis la bela songxo de l' homaro / por eterna ben' efektivigxos.

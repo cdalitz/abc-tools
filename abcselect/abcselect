@@ -1,0 +1,237 @@
+#!/usr/bin/perl
+
+#
+# abcselect - script for selecting parts of abc files
+#
+
+#
+# Author:  Christoph Dalitz
+# License: freely distributable under GPL
+# Version: 1.5
+#
+# History:
+#   22.02.2000  first creation
+#   11.07.2000  better error message when input file not found
+#               blank line is inserted before X: lines
+#   31.01.2001  blank line as tune seperator only added when necessary
+#   01.08.2002  Q: and P: now only printed in selected tunes
+#   11.08.2002  new option -c for printing of comments of all voices
+#
+
+
+# global variable intitializations
+#---------------------------------------------------
+
+$PGM = abcselect;
+$VERSION = "1.5";
+$USAGEMSG = "This is " . $PGM . " version " . $VERSION . "\n" .
+    "USAGE:\n\t" . $PGM . " [options] [<infile>]\n" .
+    "OPTIONS:\n\t-?          help message\n" .
+    "\t-X <range>  select tunes\n" .
+    "\t-V <range>  select voices\n" .
+    "\t-P <range>  select parts\n" .
+    "\t-Q <range>  select movements\n" .
+	"\t-c          keep comments of all voices\n";
+
+# input file
+$INFILE = "";
+
+# flags if all tunes/voices/parts/tempi should be output
+$ALLX = 1;
+$ALLV = 1;
+$ALLP = 1;
+$ALLQ = 1;
+
+# flag if comment of all voices should be kept
+$KEEPCOMMENTS = 0;
+
+# voice labels and corresponding numbers
+%VCLABEL = ();
+# number of different voices
+$NVOICES = 0;
+
+# list of voice/part/tempo numbers selected for output
+%SELX = ();
+%SELV = ();
+%SELP = ();
+%SELQ = ();
+
+# current voice/part/tempo number
+$CURX = 0;
+$CURV = 0;
+$CURP = 0;
+$CURQ = 0;
+
+# last printed line
+$LASTNONCOMMENT = "";
+
+# subroutines
+#---------------------------------------------------
+
+#
+# (void) parse_range ($ranges, \%numbers)
+#   - parse comma separated list of number ranges 
+#     store corresponding numbers in %numbers
+#
+sub parse_range {
+    my @ranges = split(/,/, $_[0]);
+    my $numbers = $_[1];
+
+    foreach (@ranges) {
+        if (/^[0-9]+$/) {
+            $$numbers{$_} = "true";
+        }
+        elsif (/^[0-9]+-[0-9]+$/) {
+            my $pos = index ($_,"-");
+            my $n;
+            my $min = substr($_, 0, $pos);
+            my $max = substr($_, $pos+1);
+            for ($n = $min; $n <= $max; $n++) {
+                $$numbers{$n} = "true";
+            }
+        }
+    }
+}
+
+#
+# (void) printandstore ($string)
+#   - prints $string to stdout and stores it in global variable
+#     $LASTNONCOMMENT when $string is no comment line
+#
+sub printandstore {
+    $string = $_[0];
+    if ($string !~ /^%/) {
+        $LASTNONCOMMENT = $string;
+    }
+    print $string;
+}
+
+
+# main program
+#---------------------------------------------------
+
+#
+# parse command line
+#
+while (@ARGV) {
+    $opt = shift @ARGV;
+    if ($opt eq "-?") {     # help message
+        print STDERR $USAGEMSG;
+        exit 0;
+    } 
+    elsif ($opt eq "-X") {  # tune selection
+        $ALLX = 0;
+        parse_range(shift @ARGV, \%SELX);
+        $SELX{"0"} = "true";
+    }
+    elsif ($opt eq "-V") {  # voice selection
+        $ALLV = 0;
+        parse_range(shift @ARGV, \%SELV);
+        $SELV{"0"} = "true";
+    }
+    elsif ($opt eq "-P") {  # part selection
+        $ALLP = 0;
+        parse_range(shift @ARGV, \%SELP);
+        $SELP{"0"} = "true";
+    }
+    elsif ($opt eq "-Q") {  # tempi/movement selection
+        $ALLQ = 0;
+        parse_range(shift @ARGV, \%SELQ);
+        $SELQ{"0"} = "true";
+    }
+    elsif ($opt eq "-c") {  # keep comments of all voices
+        $KEEPCOMMENTS = 1;
+    }
+    elsif ($opt =~ /^-/) {  # illegal option
+        print STDERR $USAGEMSG;
+        exit 1;
+    }
+    else {                  # input file
+        $INFILE = $opt;
+        if (! -e $INFILE) {
+            print STDERR "Cannot find $INFILE\n";
+            exit 1;            
+        }
+    }
+}
+
+#
+# process abc input
+#
+if ($INFILE) {
+    open(IFH, $INFILE) or die("Cannot open ", $INFILE, "\n");
+} else {
+    open(IFH, "-") or die("Cannot open STDIN\n");
+}
+while (<IFH>) {
+
+    if (/^X:/) {             # new tune
+        $CURX++;
+        # reset other parameters
+        %VCLABEL = ();
+        $NVOICES = 0;
+        $CURV = 0;
+        $CURP = 0;
+        $CURQ = 0;
+    }
+    elsif (/^V:/) {          # voice definition
+        my @vcdef = split;
+        if ($VCLABEL{substr($vcdef[0], 2)}) {
+            # voice already defined: voice change
+            $CURV = $VCLABEL{substr($vcdef[0], 2)};
+        } else {
+            # new voice: store array and voice number
+            $NVOICES++;
+            $VCLABEL{substr($vcdef[0], 2)} = $NVOICES;
+            $CURV = $NVOICES;
+        }
+    }
+    elsif (/\[V:/) {         # voice change
+        # get voice number to label
+        my $pos1 = index($_, "[V:");
+        my $pos2 = index($_, "]", $pos1+1);
+        $CURV = $VCLABEL{substr($_, $pos1+3, $pos2-$pos1-3)};
+    }
+    elsif (/^P:/) {          # new part
+        $CURP++;
+    }
+    elsif (/^Q:/) {          # new tempo/movement
+        $CURQ++;
+    }
+
+    # print only selcted tunes/voices...
+    if ( ($ALLX || $SELX{$CURX}) && 
+         ($ALLV || $SELV{$CURV}) && 
+         ($ALLP || $SELP{$CURP}) &&
+         ($ALLQ || $SELQ{$CURQ}) ) {
+
+        # tunes must be separated by blank lines
+        if ((/^X:/) && ($LASTNONCOMMENT =~ /\S/)) {
+            print "\n";
+        }
+
+        printandstore $_;
+    }
+
+    # print part and tempo labels even when in unselected voice
+    elsif ( (!$ALLV) && (!$SELV{$CURV}) &&
+         ( (/^P:/ && ($ALLP || $SELP{$CURP})) ||
+           (/^Q:/ && ($ALLQ || $SELQ{$CURQ})) ) ) {
+        if ($ALLX || $SELX{$CURX}) { printandstore $_; }
+    }
+
+    # print part and tempo labels even when in unselected voice
+    elsif ( (!$ALLV) && (!$SELV{$CURV}) &&
+         ( (/^P:/ && ($ALLP || $SELP{$CURP})) ||
+           (/^Q:/ && ($ALLQ || $SELQ{$CURQ})) ) ) {
+        if ($ALLX || $SELX{$CURX}) { printandstore $_; }
+    }
+
+	# print comments of all voices if wished
+    elsif ( !$ALLV && !$SELV{$CURV} && $KEEPCOMMENTS && /^%/ ) {
+		printandstore $_;
+	}
+
+}
+close(IFH);
+

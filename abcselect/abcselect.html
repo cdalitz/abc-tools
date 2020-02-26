@@ -1,0 +1,103 @@
+<html>
+<head>
+<meta name="Content-Style" content="text/css">
+</head>
+<body>
+<a href="#NAME">NAME</a><br>
+<a href="#SYNOPSIS">SYNOPSIS</a><br>
+<a href="#DESCRIPTION">DESCRIPTION</a><br>
+<a href="#OPTIONS">OPTIONS</a><br>
+<a href="#EXAMPLES">EXAMPLES</a><br>
+<a href="#AUTHOR">AUTHOR</a><br>
+<a href="#VERSION">VERSION</a><br>
+<a href="#COPYRIGHT">COPYRIGHT</a><br>
+<a href="#SEE ALSO">SEE ALSO</a><br>
+<!-- Creator     : groff version 1.15  -->
+<!-- CreationDate: Sun Aug 11 19:59:59 2002
+ -->
+<!-- Total number of pages: 1 -->
+<!-- Page: 1 -->
+<!-- left  margin: 100 -->
+<!-- right margin: 750 -->
+<a name="NAME"></a><h2>NAME</h2><p><font size=3><B>abcselect</B> <font size=3>- manipulates music in abc format</p>
+<a name="SYNOPSIS"></a><h2>SYNOPSIS</h2><p><font size=3>abcselect [-?] [-X <font size=3><I>xrefs</I><font size=3>] [-V <font size=3><I>voices</I><font size=3>] [-P <font size=3><I>parts</I><font size=3>] [-Q <font size=3><I>movements</I><font size=3>] [-c] [<font size=3><I>infile</I><font size=3>]</p>
+<a name="DESCRIPTION"></a><h2>DESCRIPTION</h2><p><font size=3><B>abcselect</B> <font size=3>reads an input file containing music in abc format and outputs a modified version in abc format.</p>
+<p><font size=3>The output is written to stdout and can be piped directly into <font size=3><I>abctab2ps</I><font size=3>. If no input file is given, the input is read from stdin.</p>
+<p><font size=3>All numbers specified in the options refer to the cardinal number of the corresponding info field, not to the actual value of the info field. E.g. the first tune is always specified with "-X 1", regardless of the value in the "X:" field.</p>
+<a name="OPTIONS"></a><h2>OPTIONS</h2>
+<table width="100%"  rules="none"  frame="none"  cols="3">
+<tr valign="top" align="left">
+<td valign="top" align="left"  width="12.7692%">
+<p><font size=3><B>-?</p>
+</B><p><font size=3><B>-X</B> <font size=3><I>xrefs</p>
+</I></td>
+<td valign="top" align="left"  width="7.2308%">
+</td>
+<td valign="top" align="left"  width="80.0000%">
+<p><font size=3>print usage message</p>
+<p><font size=3>print only tunes specified by xrefs. <font size=3><I>xrefs</I> <font size=3>must be a comma separated list of tune numbers or ranges, eg. "-X 1-3,6". When omitted, all tunes are printed.</p>
+</td>
+</tr>
+<tr valign="top" align="left">
+<td valign="top" align="left"  width="12.7692%">
+<p><font size=3><B>-V</B> <font size=3><I>voices</p>
+</I></td>
+<td valign="top" align="left"  width="7.2308%">
+</td>
+<td valign="top" align="left"  width="80.0000%">
+<p><font size=3>select specified voices. <font size=3><I>voices</I> <font size=3>must be a comma separated list of voice numbers or ranges, eg. "-V 1-3,6". When omitted, all voices are printed.</p>
+</td>
+</tr>
+<tr valign="top" align="left">
+<td valign="top" align="left"  width="12.7692%">
+<p><font size=3><B>-P</B> <font size=3><I>parts</p>
+</I></td>
+<td valign="top" align="left"  width="7.2308%">
+</td>
+<td valign="top" align="left"  width="80.0000%">
+<p><font size=3>select specified parts. <font size=3><I>parts</I> <font size=3>must be a comma separated list of numbers or ranges, eg. "-P 1-3,6". When omitted, all parts are printed.</p>
+</td>
+</tr>
+<tr valign="top" align="left">
+<td valign="top" align="left"  width="12.7692%">
+<p><font size=3><B>-Q</B> <font size=3><I>movements</p>
+</I></td>
+<td valign="top" align="left"  width="7.2308%">
+</td>
+<td valign="top" align="left"  width="80.0000%">
+<p><font size=3>select specified movements (tempo indications). <font size=3><I>movements</I> <font size=3>must be a comma separated list of numbers or ranges, eg. "-Q 1-3,6". When omitted, all movements are printed.</p>
+</td>
+</tr>
+<tr valign="top" align="left">
+<td valign="top" align="left"  width="12.7692%">
+<p><font size=3><B>-c</p>
+</B></td>
+<td valign="top" align="left"  width="7.2308%">
+</td>
+<td valign="top" align="left"  width="80.0000%">
+<p><font size=3>keep comments of all voices. This can be useful if comments contain barnumbers or text<br>
+that would otherwise be suppressed.</p>
+</td>
+</tr>
+<tr valign="top" align="left">
+<td valign="top" align="left"  width="12.7692%">
+</td>
+<td valign="top" align="left"  width="7.2308%">
+</td>
+<td valign="top" align="left"  width="80.0000%">
+</td>
+</tr>
+</table>
+<br>
+<a name="EXAMPLES"></a><h2>EXAMPLES</h2><p><font size=3>Select first and third voice from second movement of sample.abc and typeset it with abctab2ps:</p>
+<p><span style=" text-indent: 0.5000in;"></span><font size=3><tt>abcselect -V 1,3 -Q 2 sample.abc | abctab2ps</p>
+</tt><p><font size=3>Select first, second and third voice from second tune of sample.abc and print it to selection.abc:</p>
+<p><span style=" text-indent: 0.5000in;"></span><font size=3><tt>abcselect -V 1-3 -X 2 sample.abc &gt; selection.abc</p>
+</tt><a name="AUTHOR"></a><h2>AUTHOR</h2><p><font size=3>Christoph Dalitz &lt;christoph(dot)dalitz[at]hsnr(dot)de&gt;</p>
+<a name="VERSION"></a><h2>VERSION</h2><p><font size=3>This man page describes abcselect version 1.5 from August 2002.</p>
+<a name="COPYRIGHT"></a><h2>COPYRIGHT</h2><p><font size=3>Copyright 2000-2002 by Christoph Dalitz</p>
+<p><font size=3>abcselect is supplied "as is" without any warranty. It is free software and can be used, copied, modified and dis- tributed without fee under the terms of the GNU General Public License.</p>
+<a name="SEE ALSO"></a><h2>SEE ALSO</h2><p><font size=3>abctab2ps(1)<br>
+</p>
+</body>
+</html>

@@ -1,0 +1,106 @@
+.TH ABCSELECT 1 "11. August 2002"
+.\"
+.\"
+.\"---------------------------------------------------------------------
+.SH NAME
+.\"---------------------------------------------------------------------
+\fBabcselect\fP \- manipulates music in abc format
+.\"
+.\"
+.\"---------------------------------------------------------------------
+.SH SYNOPSIS
+.\"---------------------------------------------------------------------
+abcselect [-?] [-X \fIxrefs\fP] [-V \fIvoices\fP] [-P \fIparts\fP] 
+[-Q \fImovements\fP] [-c] [\fIinfile\fP]
+.\"
+.\"
+.\"---------------------------------------------------------------------
+.SH DESCRIPTION
+.\"---------------------------------------------------------------------
+\fBabcselect\fP reads an input file containing music in abc format
+and outputs a modified version in abc format.
+.PP
+The output is written to stdout and can be piped directly into
+\fIabctab2ps\fP. If no input file is given, the input is read from
+stdin.
+.PP
+All numbers specified in the options refer to the cardinal number
+of the corresponding info field, not to the actual value of
+the info field. E.g. the first tune is always specified with
+"-X 1", regardless of the value in the "X:" field.
+.\"
+.\"
+.\"---------------------------------------------------------------------
+.SH OPTIONS
+.\"---------------------------------------------------------------------
+.TP
+.B -?
+print usage message
+.TP
+.B -X \fIxrefs\fP
+print only tunes specified by xrefs. \fIxrefs\fP must be a comma separated 
+list of tune numbers or ranges, eg. "-X 1-3,6". When omitted, all tunes
+are printed.
+.TP
+.B -V \fIvoices\fP
+select specified voices. \fIvoices\fP must be a comma separated list
+of voice numbers or ranges, eg. "-V 1-3,6". When omitted, all voices
+are printed.
+.TP
+.B -P \fIparts\fP
+select specified parts. \fIparts\fP must be a comma separated list
+of numbers or ranges, eg. "-P 1-3,6". When omitted, all parts are
+printed.
+.TP
+.B -Q \fImovements\fP
+select specified movements (tempo indications). \fImovements\fP must be 
+a comma separated list of numbers or ranges, eg. "-Q 1-3,6". When
+omitted, all movements are printed.
+.TP
+.B -c
+keep comments of all voices. This can be useful if comments contain
+barnumbers or text that would otherwise be suppressed.
+.\"
+.\"
+.\"---------------------------------------------------------------------
+.SH EXAMPLES
+.\"---------------------------------------------------------------------
+Select first and third voice from second movement of sample.abc and 
+typeset it with abctab2ps:
+.PP
+\	\fCabcselect -V 1,3 -Q 2 sample.abc | abctab2ps\fP
+.PP
+Select first, second and third voice from second tune of sample.abc and 
+print it to selection.abc:
+.PP
+\	\fCabcselect -V 1-3 -X 2 sample.abc > selection.abc\fP
+.PP
+.\"
+.\"
+.\"---------------------------------------------------------------------
+.SH AUTHOR
+.\"---------------------------------------------------------------------
+Christoph Dalitz <christoph(dot)dalitz[at]hsnr(dot)de>
+.\"
+.\"
+.\"---------------------------------------------------------------------
+.SH VERSION
+.\"---------------------------------------------------------------------
+This man page describes abcselect version 1.5 from August 2002.
+.\"
+.\"
+.\"---------------------------------------------------------------------
+.SH COPYRIGHT
+.\"---------------------------------------------------------------------
+Copyright 2000-2002 by Christoph Dalitz
+.PP
+abcselect is supplied "as is" without any warranty. It
+is free software and can be used, copied, modified and
+distributed without fee under the terms of the GNU General 
+Public License. 
+.\"
+.\"
+.\"---------------------------------------------------------------------
+.SH SEE ALSO
+.\"---------------------------------------------------------------------
+abctab2ps(1)

@@ -1,0 +1,124 @@
+.TH TAB2ABC 1 "19. July 2004"
+.\"
+.\"
+.\"---------------------------------------------------------------------
+.SH NAME
+.\"---------------------------------------------------------------------
+\fBtab2abc\fP \- converts tablature from TAB to ABC format
+.\"
+.\"
+.\"---------------------------------------------------------------------
+.SH SYNOPSIS
+.\"---------------------------------------------------------------------
+tab2abc [-?] 
+[-tab \fItype\fP] [-len \fIlength\fP] [-beam] [-layout] [-notext]
+[\fIinfile\fP]
+.\"
+.\"
+.\"---------------------------------------------------------------------
+.SH DESCRIPTION
+.\"---------------------------------------------------------------------
+\fBtab2abc\fP reads an input file containing tablature in Wayne Cripps'
+tab format and outputs it in abc format.
+.PP
+The output is written to stdout and can be piped directly into
+\fIabctab2ps\fP. If no input file is given, the input is read from
+stdin.
+.\"
+.\"
+.\"---------------------------------------------------------------------
+.SH OPTIONS
+.\"---------------------------------------------------------------------
+.TP
+.B -?
+print usage message
+.TP
+.B -tab \fItype\fP
+tablature type. This option is necessary for italian tablature
+because the tab format does not provide any information whether
+a tablature is spanish or italian. Possible values for \fItype\fP are:
+"fr" (french tab), "sp" (spanish/guitar tab), "it"' (italian tab) or 
+"it7" (7 course italian tab). Default value is "fr".
+.TP
+.B -len \fIlength\fP
+default length (L: field) for the abc output. \fIlength\fP must be
+a valid abc length specifier. Default value is "1/8".
+.TP
+.B -beam
+do not seperate chords in abc with spaces. This is useful if you
+want to use the %%tabrhstyle grid in the abc output. Otherwise it
+is not recommended as it reduces the legibility of the abc code.
+Please note that this option beams \fIall\fP notes in a bar.
+.TP
+.B -layout
+try to emulate tab's layout settings. These are guessed from
+command line options found win the tab file.
+.TP
+.B -nolinebreak
+do not beautify abc code to bar per line.
+.TP
+.B -notext
+do not convert text under chords.
+.\"
+.\"
+.\"---------------------------------------------------------------------
+.SH EXAMPLES
+.\"---------------------------------------------------------------------
+Convert tab file in.tab in italian tablature and write abc output
+wiht default length 1/4 to out.abc:
+.PP
+\	\fCtab2abc -len 1/4 -tab it in.tab > out.abc\fP
+.\"
+.\"
+.\"---------------------------------------------------------------------
+.SH BUGS
+.\"---------------------------------------------------------------------
+tab2abc currently has the following limitations:
+.RS .1i
+.IP - .2i
+Only single voice tablature is supported. An additional music line is
+ignored.
+.IP - .2i
+There are no tags for title, composer etc. in tab. Thus the first
+encountered texts are interpreted as title and composer. This may or
+may not be what you want.
+.IP - .2i
+Grace symbols are applied to the entire chord rather than individual
+notes. This is ok for almost all cases, but might require manual correction
+occasionally.
+.IP - .2i
+Slurs and other special decorations are ignored.
+.IP - .2i
+tab's file format has many dusty corners. If you encounter
+one that is not supported by tab2abc, please send an error report 
+including the problematic tab file to the author.
+.RE
+.\"
+.\"
+.\"---------------------------------------------------------------------
+.SH AUTHOR
+.\"---------------------------------------------------------------------
+Christoph Dalitz <christoph(dot)dalitz[at]hsnr(dot)de>
+.\"
+.\"
+.\"---------------------------------------------------------------------
+.SH VERSION
+.\"---------------------------------------------------------------------
+This man page describes tab2abc version 1.6 from July 2004.
+.\"
+.\"
+.\"---------------------------------------------------------------------
+.SH COPYRIGHT
+.\"---------------------------------------------------------------------
+Copyright 2002-2004 by Christoph Dalitz
+.PP
+tab2abc is supplied "as is" without any warranty. It
+is free software and can be used, copied, modified and
+distributed without fee under the terms of the GNU General 
+Public License. 
+.\"
+.\"
+.\"---------------------------------------------------------------------
+.SH SEE ALSO
+.\"---------------------------------------------------------------------
+abctab2ps(1)

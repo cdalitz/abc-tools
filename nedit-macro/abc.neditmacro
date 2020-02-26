@@ -1,0 +1,315 @@
+! abc.neditmacro
+!
+! Nedit Language mode for abctab2ps
+!
+! Version:
+!    1.4
+!
+! Author:
+!    Christoph Dalitz <dalitz@infotech.de>
+!
+! Features:
+!  - abc syntax highlighting
+!  - abc specific menu entries in the "Macro" menu
+!
+! Installation:
+!    type "nedit -import abc.neditmacro"
+
+
+nedit.macroCommands: \
+	abc - Preview Buffer@abc::P:: {\n\
+		# general settings\n\
+		$tmpfile = "/tmp/abc.ps"\n\
+		$psviewer = "gv -antialias"\n\
+		$abctab2ps = "abctab2ps -O " $tmpfile "|grep -v 'from stdin'|sed 's/^[ ]*^//'"\n\
+		\n\
+		# process buffer with abctab2ps\n\
+		BUFFER = get_range(0,$text_length-1)\n\
+		shell_command("rm " $tmpfile, "")\n\
+		OUTPUT = shell_command($abctab2ps, BUFFER)\n\
+		\n\
+		# check exit status\n\
+		if ($shell_cmd_status) {\n\
+		  dialog("Error in call to abc translator:\\n\\n" OUTPUT, "Ok")\n\
+		  return\n\
+		}\n\
+		\n\
+		# check abctab2ps output for error messages\n\
+		P = search_string(OUTPUT,"+++",0)\n\
+		if (P!=-1) {\n\
+		  RC = dialog(OUTPUT, "Goto Error", "Preview anyway", "Cancel")\n\
+		  if (RC==2) {\n\
+		    # preview anyway\n\
+		    OUTPUT = shell_command($psviewer " " $tmpfile, "")\n\
+		    if ($shell_cmd_status) {\n\
+		      dialog("Error in call to PS viewer:\\n\\n" OUTPUT, "Ok")\n\
+		      return\n\
+		    }\n\
+		  } else if (RC==1) {\n\
+		    # goto error\n\
+		    PP = search_string(OUTPUT,"line ",P)\n\
+		    if (PP!=-1) {\n\
+		      # read line and column\n\
+		      LDOTC = substring(OUTPUT,PP+5,search_string(OUTPUT,".$",PP,"regex")+1)\n\
+		      DOT = search_string(LDOTC,".",0)\n\
+		      if (DOT!=-1) {\n\
+		        L = substring(LDOTC,0,DOT)\n\
+		        C = substring(LDOTC,DOT+1,length(LDOTC)-1)\n\
+		        goto_line_number(L)\n\
+		        set_cursor_pos($cursor+C-1)\n\
+			select($cursor, $cursor+1)\n\
+		      } else {\n\
+		        goto_line_number(LDOTC)\n\
+		      }\n\
+		    } else {\n\
+		      dialog("Could not determine line number", "Ok")\n\
+		    }\n\
+		  }\n\
+		} else {\n\
+		  OUTPUT = shell_command($psviewer " " $tmpfile, "")\n\
+		  if ($shell_cmd_status) {\n\
+		    dialog("Error in call to PS viewer:\\n\\n" OUTPUT, "Ok")\n\
+		    return\n\
+		  }\n\
+		}\n\
+	}\n\
+	abc - Preview Tune@abc::T:: {\n\
+		# general settings\n\
+		$tmpfile = "/tmp/abc.ps"\n\
+		$psviewer = "gv -antialias"\n\
+		$abctab2ps = "abctab2ps -O " $tmpfile "|grep -v 'from stdin'|sed 's/^[ ]*^//'"\n\
+		\n\
+		# get prolog and current tune\n\
+		prologend = search("^X:", 0, "regex", "forward")\n\
+		if (prologend < 0) {\n\
+			dialog("Error: no X: found", "Ok")\n\
+			return\n\
+		}\n\
+		tunestart = search("^X:", $cursor, "regex", "backward")\n\
+		if (tunestart < 0) {\n\
+			tunestart = 0\n\
+			prologend = 0\n\
+		}\n\
+		if (0 < search("^[ \\t]*$", $cursor, "regex", "forward")) {\n\
+			tuneend = $search_end\n\
+		} else {\n\
+			tuneend = $text_length - 1\n\
+		}\n\
+		BUFFER = get_range(0, prologend) get_range(tunestart, tuneend)\n\
+		shell_command("rm " $tmpfile, "")\n\
+		OUTPUT = shell_command($abctab2ps, BUFFER)\n\
+		\n\
+		# check exit status\n\
+		if ($shell_cmd_status) {\n\
+		  dialog("Error in call to abc translator:\\n\\n" OUTPUT, "Ok")\n\
+		  return\n\
+		}\n\
+		\n\
+		# check abctab2ps output for error messages\n\
+		P = search_string(OUTPUT,"+++",0)\n\
+		if (P!=-1) {\n\
+		  RC = dialog(OUTPUT, "Goto Error", "Preview anyway", "Cancel")\n\
+		  if (RC==2) {\n\
+		    # preview anyway\n\
+		    OUTPUT = shell_command($psviewer " " $tmpfile, "")\n\
+		    if ($shell_cmd_status) {\n\
+		      dialog("Error in call to PS viewer:\\n\\n" OUTPUT, "Ok")\n\
+		      return\n\
+		    }\n\
+		  } else if (RC==1) {\n\
+		    # goto error\n\
+		    PP = search_string(OUTPUT,"line ",P)\n\
+		    if (PP!=-1) {\n\
+		      # how many lines in abc file omitted?\n\
+		      omitted = get_range(prologend, tunestart)\n\
+		      Lomit = 0\n\
+		      for (nlfound = search_string(omitted,"\\n",0); nlfound > 0; \\\n\
+		           nlfound = search_string(omitted,"\\n",nlfound+1)) {\n\
+		        Lomit++\n\
+		      }\n\
+		      # read line and column\n\
+		      LDOTC = substring(OUTPUT,PP+5,search_string(OUTPUT,".$",PP,"regex")+1)\n\
+		      DOT = search_string(LDOTC,".",0)\n\
+		      if (DOT!=-1) {\n\
+		        L = substring(LDOTC,0,DOT)\n\
+		        C = substring(LDOTC,DOT+1,length(LDOTC)-1)\n\
+		        goto_line_number(L+Lomit)\n\
+		        set_cursor_pos($cursor+C-1)\n\
+			select($cursor, $cursor+1)\n\
+		      } else {\n\
+		        goto_line_number(LDOTC+Lomit)\n\
+		      }\n\
+		    } else {\n\
+		      dialog("Could not determine line number", "Ok")\n\
+		    }\n\
+		  }\n\
+		} else {\n\
+		  OUTPUT = shell_command($psviewer " " $tmpfile, "")\n\
+		  if ($shell_cmd_status) {\n\
+		    dialog("Error in call to PS viewer:\\n\\n" OUTPUT, "Ok")\n\
+		    return\n\
+		  }\n\
+		}\n\
+	}\n\
+	abc - insert Header@abc:::: {\n\
+		# when not first tune add blank line\n\
+		$abcheader = "X:1\\nT:\\nC:\\nL:1/4\\nM:C\\nK:C\\n%\\n"\n\
+		$xref = search("^X:", 0, "regex")\n\
+		if (($xref != -1) && ($xref < $cursor)) {\n\
+			$abcheader = "\\n" $abcheader	\n\
+		}\n\
+		replace_range($cursor-$column, $cursor-$column, $abcheader)\n\
+	}\n\
+	abc - Goto voice/bar...@abc::G:: {\n\
+		# ask user for data\n\
+		VCOMMAB = string_dialog("Enter voice and bar\\nseperated by comma\\n", "Ok", "Cancel")\n\
+		TRIMMED = replace_in_string(VCOMMAB," ","")\n\
+		if (TRIMMED!="") VCOMMAB = TRIMMED\n\
+		if (VCOMMAB=="") return\n\
+		\n\
+		if ($string_dialog_button==1) {\n\
+		  # extract voice and bar\n\
+		  COMMA = search_string(VCOMMAB,",",0)\n\
+		  VOICE = substring(VCOMMAB,0,COMMA)\n\
+		  BAR = substring(VCOMMAB,COMMA+1,length(VCOMMAB))\n\
+		  #dialog("Voice: " VOICE "\\nBar: " BAR, "Ok")\n\
+		\n\
+		  # create list of voice definitions\n\
+		  BUFFER = get_range(0,$text_length-1)\n\
+		  V=0\n\
+		  VOICELIST = ""\n\
+		  for (P=search_string(BUFFER,"^V:",0,"regex");P!=-1;P=search_string(BUFFER,"^V:",P+1,"regex")) {\n\
+		    V++\n\
+		    PP = search_string(BUFFER,"[ \\t\\n]",P,"regex")\n\
+		    VOICELIST = VOICELIST ";" substring(BUFFER,P+2,PP) ":" V ";"\n\
+		  }\n\
+		  #dialog(VOICELIST,"Ok")\n\
+		\n\
+		  # loop over lines in buffer\n\
+		  B = 1\n\
+		  P = 0\n\
+		  PP = search_string(BUFFER,"^",P+1,"regex")\n\
+		  L = 0\n\
+		  while (PP>P) {\n\
+		    LINE = substring(BUFFER,P,PP-1)\n\
+		    L++\n\
+		    P = PP\n\
+		    PP = search_string(BUFFER,"^",P+1,"regex")\n\
+		\n\
+		    # ignore comments and info fields\n\
+		    if (search_string(LINE,"^%|^[^V]:",0,"regex")!=-1)\n\
+		      continue\n\
+		\n\
+		    # check for voice number\n\
+		    if (VOICELIST!="") {\n\
+		      VOICENAME = ""\n\
+		      if (search_string(LINE,"^V:",0,"regex")!=-1) {\n\
+		        Q = search_string(LINE,"[ \\t\\n]",0,"regex")\n\
+		        VOICENAME = substring(LINE,2,Q)\n\
+		      } else {\n\
+		        Q = search_string(LINE,"[V:",0)\n\
+		        if (Q!=-1) {\n\
+		          QQ = search_string(LINE,"]",Q)\n\
+		          if (QQ!=-1)\n\
+		            VOICENAME = substring(LINE,Q+3,QQ)\n\
+		        }\n\
+		      }\n\
+		      if (VOICENAME!="") {\n\
+		        # lookup name in voice list (TODO)\n\
+		        Q = search_string(VOICELIST, ";" VOICENAME ":", 0)\n\
+		        if (Q!=-1) {\n\
+		          Q = search_string(VOICELIST, ":", Q)\n\
+		          QQ = search_string(VOICELIST, ";", Q+1)\n\
+		          V = substring(VOICELIST, Q+1, QQ)\n\
+		        } else {\n\
+		          # undefined voice\n\
+		          V = -1\n\
+		        }\n\
+		      }\n\
+		      if (V!=VOICE)\n\
+		        continue\n\
+		    }\n\
+		\n\
+		    # count bars\n\
+		    for (Q=search_string(LINE,"|",0);Q!=-1;Q=search_string(LINE,"|",Q+1)) {\n\
+		      B++\n\
+		      # count double bars as one bar\n\
+		      if (substring(LINE,Q+1,Q+2)=="|") {\n\
+		        Q++\n\
+		      }\n\
+		      if (B==BAR) {\n\
+		        goto_line_number(L)\n\
+		        set_cursor_pos($cursor+Q+1)\n\
+		        return\n\
+		      }\n\
+		    }\n\
+		  }\n\
+		\n\
+		  dialog("Bar " BAR " in voice " VOICE " not found\\n", "Ok")\n\
+		}\n\
+	}\n\
+	abc - Comments>Comment Out Region@abc::C:R: {\n\
+		replace_in_selection("^.*$", "% &", "regex")\n\
+	}\n\
+	abc - Comments>Uncomment Region@abc::U:R: {\n\
+		replace_in_selection("(^% )(.*)$", "\\\\2", "regex")\n\
+	}\n\
+	abc - Insert format parameter>Tablature Settings@abc:::: {\n\
+		# general settings\n\
+		$abctab2ps = "abctab2ps -H"\n\
+		$option = "^  *tab"\n\
+		\n\
+		# read options from abctab2ps\n\
+		$optionlist = shell_command($abctab2ps " | grep '" $option "'", "")\n\
+		$optionlist = replace_in_string($optionlist, "^  *", "%%", "regex")\n\
+		\n\
+		# ask user and insert selected item\n\
+		$item = list_dialog("Select Tablature Option", $optionlist, "Ok", "Cancel")\n\
+		if ($list_dialog_button == 1) {\n\
+			replace_range($cursor-$column, $cursor-$column, $item "\\n")\n\
+		}\n\
+	}\n\
+	abc - Insert format parameter>Font Settings@abc:::: {\n\
+		# general settings\n\
+		$abctab2ps = "abctab2ps -H"\n\
+		$option = "font"\n\
+		\n\
+		# read options from abctab2ps\n\
+		$optionlist = shell_command($abctab2ps " | grep '" $option "'", "")\n\
+		$optionlist = replace_in_string($optionlist, "^  *", "%%", "regex")\n\
+		\n\
+		# ask user and insert selected item\n\
+		$item = list_dialog("Select Font Setting", $optionlist, "Ok", "Cancel")\n\
+		if ($list_dialog_button == 1) {\n\
+			replace_range($cursor-$column, $cursor-$column, $item "\\n")\n\
+		}\n\
+	}\n\
+	abc - Insert format parameter>Page Layout@abc:::: {\n\
+		# general settings\n\
+		$abctab2ps = "abctab2ps -H"\n\
+		$option = "width\\\\|height\\\\|margin\\\\|space\\\\|sep"\n\
+		\n\
+		# read options from abctab2ps\n\
+		$optionlist = shell_command($abctab2ps " | grep '" $option "'", "")\n\
+		$optionlist = replace_in_string($optionlist, "^  *", "%%", "regex")\n\
+		\n\
+		# ask user and insert selected item\n\
+		$item = list_dialog("Select Layout Option", $optionlist, "Ok", "Cancel")\n\
+		if ($list_dialog_button == 1) {\n\
+			replace_range($cursor-$column, $cursor-$column, $item "\\n")\n\
+		}\n\
+	}\n
+nedit.highlightPatterns: \
+	abc:1:0{\n\
+		Comment:"^%.*":::Comment::\n\
+		VoiceDefinition:"^V:":"$"::Flag::\n\
+		VoiceParameter:".*":::String:VoiceDefinition:\n\
+		VoiceChange:"\\[V:":"\\]"::Flag::\n\
+		InlineInfoField:"\\[.:":"\\]"::Identifier::\n\
+		LyricsLine:"^w:":"$"::Identifier::\n\
+		LyricsText:".*":::Text Arg2:LyricsLine:\n\
+		InfoLine:"^[a-z,A-Z]:":"$"::Identifier::\n\
+		InfoText:".*":::Identifier:InfoLine:\n\
+		Bar:"(\\|\\])|(\\[\\|)|(\\|:)|(:\\|)|(\\|)|(\\[[12])|(::)":::String::\n\
+	}
+nedit.languageModes: 	abc:abc::::::
