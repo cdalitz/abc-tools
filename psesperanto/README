@@ -25,15 +25,15 @@ The script works as follows:
  - all special characters in string literals are translated
    to the corresponding latin3 code
 
-Beware that this has the side effect, that charactes specific to latin1
-encoding, like German umlauts, no longer print correctly. This means that,
-at present, Esperanto text can not be mixed with text in other languages
-that uses 8bit characters.
+Beware that this has the side effect, that characters specific to latin1
+encoding, might no longer print correctly. This means that, at present,
+Esperanto text can only be mixed with text in some other languages
+that use 8bit characters.
 
 Installation
 ------------
 
-The script can be used without installation just by passign its filename
+The script can be used without installation just by passing its filename
 to the python interpreter. The script has been tested with python 2.7.
 
 It can be installed by making teh script file executable and copying
@@ -46,8 +46,5 @@ Author & License
 ----------------
 
 psesperanto.py is copyrighted by Christoph Dalitz, October 2017.
-The program cn be freely copied, distributed, used, and modified
+The program can be freely copied, distributed, used, and modified
 under the terms of the GNU General Public License, version 2.
-
-
-

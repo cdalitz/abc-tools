@@ -4,7 +4,7 @@
 # cx etc. is converted to the proper chars in latin3 encoding
 #
 # Author:  Christoph Dalitz
-# Version: 1.0 from 2017-10-02
+# Version: 1.1 from 2020-04-20
 # License: GNU GPL version 2
 #
 
@@ -98,24 +98,24 @@ ps_encodingvector = """%%BeginResource: procset Character-Encoding-ISO-8859-3
 
 # function that does the character translation
 def translate_one_str(sin):
-    sout = sin.replace("HX","\\246 ")
-    sout = sout.replace("Hx","\\246 ")
-    sout = sout.replace("hx","\\266 ")
-    sout = sout.replace("CX","\\306 ")
-    sout = sout.replace("Cx","\\306 ")
-    sout = sout.replace("cx","\\346 ")
-    sout = sout.replace("SX","\\336 ")
-    sout = sout.replace("Sx","\\336 ")
-    sout = sout.replace("sx","\\376 ")
-    sout = sout.replace("JX","\\254 ")
-    sout = sout.replace("Jx","\\254 ")
-    sout = sout.replace("jx","\\274 ")
-    sout = sout.replace("GX","\\330 ")
-    sout = sout.replace("Gx","\\330 ")
-    sout = sout.replace("gx","\\370 ")
-    sout = sout.replace("UX","\\335 ")
-    sout = sout.replace("Ux","\\335 ")
-    sout = sout.replace("ux","\\375 ")
+    sout = sin.replace("HX","\\246")
+    sout = sout.replace("Hx","\\246")
+    sout = sout.replace("hx","\\266")
+    sout = sout.replace("CX","\\306")
+    sout = sout.replace("Cx","\\306")
+    sout = sout.replace("cx","\\346")
+    sout = sout.replace("SX","\\336")
+    sout = sout.replace("Sx","\\336")
+    sout = sout.replace("sx","\\376")
+    sout = sout.replace("JX","\\254")
+    sout = sout.replace("Jx","\\254")
+    sout = sout.replace("jx","\\274")
+    sout = sout.replace("GX","\\330")
+    sout = sout.replace("Gx","\\330")
+    sout = sout.replace("gx","\\370")
+    sout = sout.replace("UX","\\335")
+    sout = sout.replace("Ux","\\335")
+    sout = sout.replace("ux","\\375")
     return sout
 def translate_all_str(sin):
     sout = ""
@@ -123,20 +123,20 @@ def translate_all_str(sin):
     pos = 0
     inparen = 0
     while (pos < len(sin)):
-        if sin[pos] == "(":
+        if sin[pos] == "(" and (pos == 0 or sin[pos-1] != "\\"):
             inparen += 1
         if inparen == 0:
             sout += sin[pos]
         else:
             s2replace += sin[pos]
-        if sin[pos] == ")":
+        if sin[pos] == ")" and pos > 0 and sin[pos-1] != "\\":
             inparen -= 1
             if inparen == 0:
                 sout += translate_one_str(s2replace)
                 s2replace = ""
         pos += 1
     if (inparen != 0):
-        sys.stderr("Warning: mismatched parenthesis\n")
+        sys.stderr.write("Warning: mismatched parenthesis\n")
     return sout
 
 # read infile and add/replace stuff
