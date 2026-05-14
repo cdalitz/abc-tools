@@ -14,7 +14,7 @@ Usage
     $ abctab2ps -O la-espero.ps la-espero.abc
 
  3) Process the PS output file with psesperanto.py, e.g.
-    $ python psesperanto.py la-espero.ps > la-espero-latin3.ps
+    $ python3 psesperanto.py la-espero.ps > la-espero-latin3.ps
 
 Caveat
 -------
@@ -26,9 +26,9 @@ The script works as follows:
    to the corresponding latin3 code
 
 Beware that this has the side effect, that characters specific to latin1
-encoding, might no longer print correctly. This means that, at present,
-Esperanto text can only be mixed with text in some other languages
-that use 8bit characters.
+encoding but not present in latin3, might no longer print correctly. This
+means that, at present, Esperanto text can only be mixed with text in
+specific other languages that use 8bit characters (German, e.g., works).
 
 Installation
 ------------
@@ -36,7 +36,7 @@ Installation
 The script can be used without installation just by passing its filename
 to the python interpreter. The script has been tested with python 2.7.
 
-It can be installed by making teh script file executable and copying
+It can be installed by making the script file executable and copying
 it to a diretcor in your $PATH variable, e.g.
 
    $ chmod 755 psesperanto.py
@@ -45,6 +45,6 @@ it to a diretcor in your $PATH variable, e.g.
 Author & License
 ----------------
 
-psesperanto.py is copyrighted by Christoph Dalitz, October 2017.
+psesperanto.py is copyrighted by Christoph Dalitz, May 2026.
 The program can be freely copied, distributed, used, and modified
 under the terms of the GNU General Public License, version 2.

@@ -1,10 +1,10 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # convert abctab2ps output to esperanto latin3 postscript
 # cx etc. is converted to the proper chars in latin3 encoding
 #
 # Author:  Christoph Dalitz
-# Version: 1.1 from 2020-04-20
+# Version: 2.0 from 2026-05-14
 # License: GNU GPL version 2
 #
 
@@ -123,25 +123,26 @@ def translate_all_str(sin):
     pos = 0
     inparen = 0
     while (pos < len(sin)):
-        if sin[pos] == "(" and (pos == 0 or sin[pos-1] != "\\"):
+        if sin[pos] == "(":
             inparen += 1
         if inparen == 0:
             sout += sin[pos]
         else:
             s2replace += sin[pos]
-        if sin[pos] == ")" and pos > 0 and sin[pos-1] != "\\":
+        if sin[pos] == ")":
             inparen -= 1
             if inparen == 0:
                 sout += translate_one_str(s2replace)
                 s2replace = ""
         pos += 1
     if (inparen != 0):
-        sys.stderr.write("Warning: mismatched parenthesis\n")
+        sys.stderr("Warning: mismatched parenthesis\n")
     return sout
 
 # read infile and add/replace stuff
 rexpr = re.compile(".*\(.*[cghjsu]x.*\).*", re.IGNORECASE)
-f = open(infile)
+f = open(infile, encoding="latin-1")
+sys.stdout.reconfigure(encoding='latin-1')
 for line in f:
     if line.startswith("%%BeginSetup"):
         outfile.write("%%BeginProlog\n" + ps_encodingvector + "%%EndProlog\n\n")
